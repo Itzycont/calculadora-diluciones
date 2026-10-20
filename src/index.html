@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de diluciones</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header>
+    <img src="img/laboratorio.jpg" alt="Material de laboratorio" class="banner">
+    <h1>Calculadora de diluciones</h1>
+    <p>Calcula el volumen de solución concentrada que necesitas con la fórmula C₁V₁ = C₂V₂.</p>
+  </header>
+
+  <main>
+    <form id="formulario">
+      <label>Concentración inicial C₁ (mol/L)
+        <input type="number" id="c1" step="any" min="0" required>
+      </label>
+      <label>Concentración final C₂ (mol/L)
+        <input type="number" id="c2" step="any" min="0" required>
+      </label>
+      <label>Volumen final V₂ (mL)
+        <input type="number" id="v2" step="any" min="0" required>
+      </label>
+      <button type="submit">Calcular V₁</button>
+    </form>
+    <p id="resultado" aria-live="polite"></p>
+  </main>
+
+  <footer>Reto 2 · Prepara y lanza tu aplicación web</footer>
+  <script src="js/app.js"></script>
+</body>
+</html>
