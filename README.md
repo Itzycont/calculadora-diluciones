@@ -35,4 +35,34 @@ El paquete se generó con `Compress-Archive -Path index.html, css, js, img -Dest
 
 ### 3. Versionamiento
 
-El historial se organizó en commits por etapa, con prefijos `chore`, `feat`, `perf`, `build` y `docs`. Para no exponer el correo personal se usó el correo noreply de GitHub.
+El historial se organizó en commits por etapa, con prefijos `chore`, `feat`, `perf`, `build`, `docs` y `fix`. Para no exponer el correo personal se usó el correo noreply de GitHub.
+
+### 4. Despliegue en Apache
+
+El paquete se descomprimió con `Expand-Archive -Path miapp.zip -DestinationPath C:\xampp\sites\miapp` y se sirve con el Apache de XAMPP (2.4.58) en el puerto 8090, desde la ruta simulada `http://localhost:8090/miapp/`.
+
+- En `C:\xampp\apache\conf\httpd.conf` se activó la línea `Include conf/extra/httpd-vhosts.conf`.
+- En `C:\xampp\apache\conf\extra\httpd-vhosts.conf` se definió el Virtual Host con el puerto y el mapeo de directorios (`Alias /miapp` hacia `C:/xampp/sites/miapp`):
+
+```apache
+Listen 8090
+<VirtualHost *:8090>
+    ServerName localhost
+    DocumentRoot "C:/xampp/htdocs"
+    Alias /miapp "C:/xampp/sites/miapp"
+    <Directory "C:/xampp/sites/miapp">
+        Options -Indexes
+        AllowOverride None
+        Require all granted
+    </Directory>
+    ErrorLog "logs/miapp-error.log"
+    CustomLog "logs/miapp-access.log" common
+</VirtualHost>
+```
+
+### 5. Validación
+
+- Sintaxis: `httpd.exe -t` devolvió `Syntax OK`.
+- Puerto: `netstat -ano | findstr :8090` mostró Apache escuchando (`LISTENING`).
+- Respuestas HTTP: `curl.exe -I http://localhost:8090/miapp/` devolvió `200 OK`, y la página, `css/styles.css`, `js/app.js` e `img/laboratorio.jpg` respondieron `200`.
+- Funcionamiento: se probó la calculadora en el navegador en `http://localhost:8090/miapp/`.
